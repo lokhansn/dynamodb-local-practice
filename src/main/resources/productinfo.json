@@ -1,13 +1,24 @@
 [
-{
-  "ID": 122,
-  "Nomenclature": "Particle Blaster 5000",
-  "Stat": {
-    "Manufacturer": "XYZ Inc.",
-    "sales": "1M+",
-    "quantity": 500,
-    "img_src": "http://www.xyz.com/manuals/particleblaster5000.jpg",
-    "description": "A laser cutter used in plastic manufacturing."
+  {
+    "ID": 122,
+    "Nomenclature": "Particle Blaster 5000",
+    "Stat": {
+      "Manufacturer": "XYZ Inc.",
+      "sales": "1M+",
+      "quantity": 500,
+      "img_src": "http://www.xyz.com/manuals/particleblaster5000.jpg",
+      "description": "A laser cutter used in plastic manufacturing."
+    }
+  },
+  {
+    "ID": 120,
+    "Nomenclature": "Strong Particle Blaster 10000",
+    "Stat": {
+      "Manufacturer": "PQR Inc.",
+      "sales": "2M+",
+      "quantity": 1500,
+      "img_src": "http://www.pqr.com/manuals/strongparticleblaster10000.jpg",
+      "description": "A laser cutter used in plastic manufacturing."
+    }
   }
-}
 ]

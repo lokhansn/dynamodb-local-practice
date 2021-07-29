@@ -6,52 +6,42 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.*;
-import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
+import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.NameMap;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 
 import java.util.Iterator;
 
-public class ProductsQuery {
+public class ProductScan {
 
     public static void main(String[] args) {
         DynamoDB dynamoDB = getDynamoDB();
 
-        Table products = dynamoDB.getTable("Products");
+        Table productsTable = dynamoDB.getTable("Products");
 
-//        HashMap<String, String> nameMap = new HashMap<>();
-//        HashMap<String, Object> valueMap = new HashMap<>();
-//        nameMap.put("#ID", "ID");
-//        valueMap.put(":xxx", 122);
-
-//        QuerySpec querySpec = new QuerySpec().withKeyConditionExpression("#ID = :xxx")
-//                .withNameMap(nameMap)
-//                .withValueMap(valueMap);
-
-        findProductsById(products, 122);
-        findProductsById(products, 120);
-
-    }
-
-    private static void findProductsById(Table products, int productId) {
-        QuerySpec querySpec = new QuerySpec().withKeyConditionExpression("#ID = :xxx")
+        ScanSpec scanSpec = new ScanSpec()
+                .withProjectionExpression("#ID, Nomenclature, Stat.sales")
+                .withFilterExpression("#ID between :start_id and :end_id")
                 .withNameMap(new NameMap().with("#ID", "ID"))
-                .withValueMap(new ValueMap().with(":xxx", productId));
+                .withValueMap(new ValueMap().
+                        withNumber(":start_id", 110).
+                        withNumber(":end_id", 130));
 
-        try {
-            System.out.println("Product with the ID "+productId);
-            ItemCollection<QueryOutcome> items = products.query(querySpec);
-            Iterator<Item> iterator = items.iterator();
 
-            while (iterator.hasNext()) {
+        try{
+
+            ItemCollection<ScanOutcome> products = productsTable.scan(scanSpec);
+            Iterator<Item> iterator = products.iterator();
+            while(iterator.hasNext()){
                 Item item = iterator.next();
-                System.out.println(item.getNumber("ID") + ": " + item.getString("Nomenclature"));
+                System.out.println(item);
             }
 
-        } catch (Exception e) {
-            System.err.println("Cannot find products with the ID number "+productId);
+        }catch (Exception e){
+            System.err.println("Cannot perform a table scan:");
             System.err.println(e.getMessage());
         }
+
     }
 
     private static DynamoDB getDynamoDB() {
