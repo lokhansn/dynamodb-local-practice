@@ -16,6 +16,9 @@ public class PutItems {
 
 
     public static void main(String[] args) {
+        // Before Executing this crate the table by executing the
+        // src/main/java/com/sgl/ProductsCreateTable.java
+        // by passing "ProductList" as table name everything else will be same
         createItems("ProductList");
 
     }
