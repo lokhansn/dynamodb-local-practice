@@ -27,7 +27,7 @@ public class ProductsCreateTable {
                 .build();
 
         DynamoDB dynamoDB = new DynamoDB(client);
-        String tableName = "ProductsV2";
+        String tableName = "Products";
         try {
             System.out.println("Creating the table, wait...");
             Table table = dynamoDB.createTable(tableName,
